@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+
+# Node/React
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Project Specific
+lectures/*
+!lectures/.gitkeep
+notes/*
+!notes/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db

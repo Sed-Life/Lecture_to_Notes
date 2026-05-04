@@ -1,0 +1,7 @@
+openai-whisper
+transformers
+torch
+ollama
+reportlab
+numpy
+tqdm
