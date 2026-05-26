@@ -21,6 +21,23 @@ Transform your lecture audio into high-impact, structured study resources using 
 - **Frontend**: React + Vite, Framer Motion, Lucide React
 - **Document Engine**: ReportLab (PDF Generation)
 
+## 🖥️ PC Requirements
+
+Since this app runs AI models **locally on your computer** (no cloud fees, completely private!), your computer needs to meet certain specifications to run them smoothly:
+
+### Minimum Specs (For lighter models like Phi-3 and BART)
+* **RAM**: 8 GB RAM
+* **CPU**: Modern Intel Core i5 or AMD Ryzen 5
+* **GPU**: Integrated Graphics (AI will run on CPU, which is slower but works)
+* **Storage**: 10 GB of free space (SSD strongly recommended to load models fast)
+
+### Recommended Specs (For LLaMA-3.1 and fast transcription)
+* **RAM**: 16 GB RAM or more
+* **GPU**: NVIDIA Dedicated Graphics Card (RTX 3060/4060 or better with 6GB+ VRAM) **OR** an Apple Silicon Mac (M1/M2/M3). *(Running on a GPU is 10x to 20x faster!)*
+* **Storage**: 15 GB of free space on an SSD
+
+---
+
 ## 📦 Setup Instructions (For Absolute Beginners)
 
 Don't worry if you've never coded before! Just follow these steps one by one:
