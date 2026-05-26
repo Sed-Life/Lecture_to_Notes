@@ -5,3 +5,6 @@ ollama
 reportlab
 numpy
 tqdm
+fastapi
+uvicorn
+python-multipart

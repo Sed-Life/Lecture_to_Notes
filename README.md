@@ -21,35 +21,49 @@ Transform your lecture audio into high-impact, structured study resources using 
 - **Frontend**: React + Vite, Framer Motion, Lucide React
 - **Document Engine**: ReportLab (PDF Generation)
 
-## 📦 Setup Instructions
+## 📦 Setup Instructions (For Absolute Beginners)
 
-### 1. Prerequisites
-- Install [Python 3.10+](https://www.python.org/)
-- Install [Node.js](https://nodejs.org/)
-- Install [Ollama](https://ollama.com/) and pull your preferred models:
-  ```bash
-  ollama pull llama3.1:8b
-  ollama pull phi3:latest
-  ```
+Don't worry if you've never coded before! Just follow these steps one by one:
 
-### 2. Backend Setup
-```bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/AI_Class_Note_Generator.git
-cd AI_Class_Note_Generator
+### Step 1: Install the Required Software
+Before we download the app, your computer needs a few basic tools:
+1. **Python**: [Download Python here](https://www.python.org/downloads/). *(IMPORTANT: When installing, make sure to check the box that says **"Add python.exe to PATH"** at the very bottom of the installer window!)*
+2. **Node.js**: [Download Node.js here](https://nodejs.org/). (Just install it normally by clicking "Next" through the installer).
+3. **Ollama**: [Download Ollama here](https://ollama.com/). (This is the engine that runs the AI on your computer).
+4. **FFmpeg**: (This is required for the transcription model to process audio/video files). 
+   * **Easy Install**: Open your terminal (`cmd`) and run this command:
+     `winget install --id=Gyan.FFmpeg -e --source winget`
+   * *(Note: After installing FFmpeg, you MUST close and reopen your command prompt/terminal window so it registers the change!).*
 
-# Install dependencies
-pip install -r requirements.txt
-```
+### Step 2: Download the AI Models
+Once Ollama is installed, we need to download the "brain" of the AI.
+1. Open a terminal on your computer (Press your Windows key, type `cmd`, and press Enter).
+2. Type this exact command and press Enter:
+   `ollama pull llama3.1:8b`
+3. Wait for it to finish downloading. Then, type this and press Enter:
+   `ollama pull phi3:latest`
 
-### 3. Frontend Setup
-```bash
-cd frontend
-npm install
-```
+### Step 3: Download this App (Cloning)
+Now we will download the Lecture to Notes app itself!
+1. In your terminal (`cmd`), type the following to download the app to your computer:
+   `git clone https://github.com/Sed-Life/Lecture_to_Notes.git`
+2. Once it finishes downloading, type this to go inside the folder you just downloaded:
+   `cd Lecture_to_Notes`
 
-### 4. Run the App
-Simply double-click the `start_app.bat` file in the root directory to launch the entire system!
+### Step 4: Install Dependencies
+The app needs a few extra packages to run properly. Let's install them:
+1. In the same terminal (make sure you are inside the `Lecture_to_Notes` folder), type this and press Enter:
+   `pip install -r requirements.txt`
+2. Next, we need to set up the visual interface (frontend). Type this and press Enter to go into the frontend folder:
+   `cd frontend`
+3. Now type this and press Enter:
+   `npm install`
+
+### Step 5: Start the App! 🎉
+You're all done with the hard part! 
+1. Open your File Explorer and go to the `Lecture_to_Notes` folder.
+2. Put any of your lecture audio or video files into the `lectures` folder.
+3. Simply double-click the `start_app.bat` file. This will automatically start the AI and open a beautiful web page where you can generate your notes!
 
 ## 📂 Project Structure
 

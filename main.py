@@ -30,14 +30,26 @@ os.makedirs(NOTES_DIR, exist_ok=True)
 
 app.mount("/view_notes", StaticFiles(directory=NOTES_DIR), name="notes")
 
-# Load Models
-print("Loading Whisper model...")
-whisper_model = whisper.load_model("base")
+# Load Models Lazily (Prevents blocking server startup and downloading BART if not used)
+whisper_model = None
+tokenizer = None
+bart_model = None
 
-print("Loading BART model...")
-bart_name = "facebook/bart-large-cnn"
-tokenizer = AutoTokenizer.from_pretrained(bart_name)
-bart_model = AutoModelForSeq2SeqLM.from_pretrained(bart_name)
+def get_whisper_model():
+    global whisper_model
+    if whisper_model is None:
+        print("Loading Whisper model...")
+        whisper_model = whisper.load_model("base")
+    return whisper_model
+
+def get_bart_model():
+    global tokenizer, bart_model
+    if bart_model is None:
+        print("Loading BART model...")
+        bart_name = "facebook/bart-large-cnn"
+        tokenizer = AutoTokenizer.from_pretrained(bart_name)
+        bart_model = AutoModelForSeq2SeqLM.from_pretrained(bart_name)
+    return tokenizer, bart_model
 
 def create_pdf(text_file, output_pdf):
     styles = getSampleStyleSheet()
@@ -117,7 +129,8 @@ async def transcribe_stream(filename: str):
         os.makedirs(output_folder, exist_ok=True)
         file_path = os.path.join(LECTURE_DIR, filename)
         yield f"data: {json.dumps({'status': 'transcribing', 'progress': 10, 'msg': 'Initializing Whisper...'})}\n\n"
-        result = whisper_model.transcribe(file_path, verbose=False)
+        w_model = get_whisper_model()
+        result = w_model.transcribe(file_path, verbose=False)
         transcript = result["text"]
         yield f"data: {json.dumps({'status': 'transcribing', 'progress': 90, 'msg': 'Saving transcript...'})}\n\n"
         with open(transcript_path, "w", encoding="utf-8") as f:
@@ -157,10 +170,11 @@ async def summarize_lecture(lecture_name: str = Form(...), ai_model: str = Form(
         notes_path = os.path.join(model_folder, "Notes.txt")
         chunks = split_text(transcript)
         notes = []
+        tok, b_model = get_bart_model()
         for chunk in chunks:
-            inputs = tokenizer(f"Summarize into structured study notes:\n\n{chunk}", return_tensors="pt", truncation=True)
-            summary_ids = bart_model.generate(inputs["input_ids"], max_length=300, min_length=150, num_beams=6)
-            summary = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+            inputs = tok(f"Summarize into structured study notes:\n\n{chunk}", return_tensors="pt", truncation=True)
+            summary_ids = b_model.generate(inputs["input_ids"], max_length=300, min_length=150, num_beams=6)
+            summary = tok.decode(summary_ids[0], skip_special_tokens=True)
             notes.append(summary)
         detailed_text = "\n\n---\n\n".join(notes)
         with open(notes_path, "w", encoding="utf-8") as f:
